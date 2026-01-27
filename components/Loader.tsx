@@ -12,23 +12,21 @@ if (typeof window !== 'undefined') {
 
 const Loader: React.FC = () => {
   const loaderRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Generate three random numbers between 20-95
-  // Each number must be at least 15-20 higher than the previous
   const generateNumbers = () => {
     const nums: number[] = [];
-    let currentNum = Math.floor(Math.random() * (40 - 20 + 1)) + 20; // First number between 20-40
+    let currentNum = Math.floor(Math.random() * (40 - 20 + 1)) + 20;
     nums.push(currentNum);
 
-    // Second number: at least 15-20 higher than first
-    const minGap = Math.floor(Math.random() * 6) + 15; // Random gap between 15-20
-    const maxForSecond = Math.min(95, currentNum + 35); // Don't go too high to leave room for third
+    const minGap = Math.floor(Math.random() * 6) + 15;
+    const maxForSecond = Math.min(95, currentNum + 35);
     currentNum =
       Math.floor(Math.random() * (maxForSecond - (currentNum + minGap) + 1)) +
       (currentNum + minGap);
     nums.push(currentNum);
 
-    // Third number: at least 15-20 higher than second
     const minGap2 = Math.floor(Math.random() * 6) + 15;
     const maxForThird = 95;
     currentNum =
@@ -39,16 +37,37 @@ const Loader: React.FC = () => {
     return nums;
   };
 
-  // Initialize numbers lazily to avoid calling setState synchronously in an effect
   const [numbers, setNumbers] = useState<number[]>(() => generateNumbers());
 
   useEffect(() => {
     if (numbers.length === 0) return;
 
+    // Add loading class to html/body at the start
+    document.documentElement.classList.add('loader-active');
+    document.body.classList.add('loader-active');
+
     const tl = gsap.timeline({
       delay: 0.3,
       defaults: {
         ease: 'hop',
+      },
+      onStart: () => {
+        // Keep scroll lock active while animating
+        document.documentElement.classList.add('loader-active');
+        document.body.classList.add('loader-active');
+      },
+      onComplete: () => {
+        // Remove loading class IMMEDIATELY when animation completes to enable scrolling
+        document.documentElement.classList.remove('loader-active');
+        document.body.classList.remove('loader-active');
+        setIsLoading(false);
+
+        // Hide the loader element after a brief delay
+        setTimeout(() => {
+          if (loaderRef.current) {
+            loaderRef.current.style.display = 'none';
+          }
+        }, 300);
       },
     });
 
@@ -162,11 +181,19 @@ const Loader: React.FC = () => {
   return (
     <>
       <style jsx global>{`
+        /* Only apply overflow:hidden when loader is active */
+        html.loader-active,
+        body.loader-active {
+          overflow: hidden;
+          height: 100vh;
+        }
+
+        /* When loader is not active, allow scrolling */
         html,
         body {
           overflow-x: hidden;
           width: 100%;
-          height: 100%;
+          overflow-y: auto;
         }
 
         @keyframes spin {
@@ -209,6 +236,7 @@ const Loader: React.FC = () => {
           position: relative;
           transform: translateY(120%);
           will-change: transform;
+          font-family: 'Roboto Mono', monospace;
         }
 
         #word-1 h1 {
@@ -240,7 +268,7 @@ const Loader: React.FC = () => {
 
       <div
         ref={loaderRef}
-        className="loader fixed top-0 left-0 w-full h-screen overflow-hidden z-[2] bg-transparent"
+        className={`loader fixed top-0 left-0 w-full h-screen overflow-hidden z-[2] bg-transparent ${isLoading ? 'pointer-events-auto' : 'pointer-events-none'}`}
       >
         <div className="overlay absolute top-0 w-full h-full flex">
           <div className="block w-full h-full bg-[#101828]"></div>
