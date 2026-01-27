@@ -1,10 +1,19 @@
+'use client';
+
 import Loader from '@/components/Loader';
-import Image from 'next/image';
+import Navbar from '@/components/Navbar';
+import HeroSection from '@/components/HeroSection';
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Loader />
-    </div>
+
+      {/* Main Container */}
+      <div className="w-full h-screen overflow-hidden relative">
+        <Navbar />
+        <HeroSection />
+      </div>
+    </>
   );
 }

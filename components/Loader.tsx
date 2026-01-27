@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 
@@ -13,7 +13,38 @@ if (typeof window !== 'undefined') {
 const Loader: React.FC = () => {
   const loaderRef = useRef<HTMLDivElement>(null);
 
+  // Generate three random numbers between 20-95
+  // Each number must be at least 15-20 higher than the previous
+  const generateNumbers = () => {
+    const nums: number[] = [];
+    let currentNum = Math.floor(Math.random() * (40 - 20 + 1)) + 20; // First number between 20-40
+    nums.push(currentNum);
+
+    // Second number: at least 15-20 higher than first
+    const minGap = Math.floor(Math.random() * 6) + 15; // Random gap between 15-20
+    const maxForSecond = Math.min(95, currentNum + 35); // Don't go too high to leave room for third
+    currentNum =
+      Math.floor(Math.random() * (maxForSecond - (currentNum + minGap) + 1)) +
+      (currentNum + minGap);
+    nums.push(currentNum);
+
+    // Third number: at least 15-20 higher than second
+    const minGap2 = Math.floor(Math.random() * 6) + 15;
+    const maxForThird = 95;
+    currentNum =
+      Math.floor(Math.random() * (maxForThird - (currentNum + minGap2) + 1)) +
+      (currentNum + minGap2);
+    nums.push(currentNum);
+
+    return nums;
+  };
+
+  // Initialize numbers lazily to avoid calling setState synchronously in an effect
+  const [numbers, setNumbers] = useState<number[]>(() => generateNumbers());
+
   useEffect(() => {
+    if (numbers.length === 0) return;
+
     const tl = gsap.timeline({
       delay: 0.3,
       defaults: {
@@ -45,10 +76,12 @@ const Loader: React.FC = () => {
         );
       }
     });
+
     tl.to('.spinner', {
       opacity: 0,
       duration: 0.3,
     });
+
     tl.to(
       '.word h1',
       {
@@ -57,17 +90,21 @@ const Loader: React.FC = () => {
       },
       '<'
     );
+
     tl.to('.divider', {
       scaleY: '100%',
       duration: 1,
-      onComplete: () =>
-        gsap.to('.divider', { opacity: 0, duration: 0.4, delay: 0.3 }),
+      onComplete: () => {
+        gsap.to('.divider', { opacity: 0, duration: 0.4, delay: 0.3 });
+      },
     });
+
     tl.to('#word-1 h1', {
       y: '100%',
       duration: 1,
       delay: 0.3,
     });
+
     tl.to(
       '#word-2 h1',
       {
@@ -76,6 +113,7 @@ const Loader: React.FC = () => {
       },
       '<'
     );
+
     tl.to('.block', {
       clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
       duration: 1,
@@ -85,16 +123,19 @@ const Loader: React.FC = () => {
         gsap.to('.hero-img', { scale: 1, duration: 2, ease: 'hop' });
       },
     });
+
     tl.to(
       ['.nav', '.line h1', '.line p'],
       { y: '0%', duration: 1.5, stagger: 0.2 },
       '<'
     );
+
     tl.to(
       ['.cta', '.cta-icon'],
       { scale: 1, duration: 1.5, stagger: 0.75, delay: 0.3 },
       '<'
     );
+
     tl.to(
       '.cta-label p',
       {
@@ -104,20 +145,23 @@ const Loader: React.FC = () => {
       },
       '<'
     );
-  }, []);
+
+    return () => {
+      tl.kill();
+    };
+  }, [numbers]);
+
+  // Split number into digits
+  const getDigits = (num: number) => {
+    const str = num.toString().padStart(2, '0');
+    return [str[0], str[1]];
+  };
+
+  if (numbers.length === 0) return null;
 
   return (
     <>
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-
-        * {
-          font-family: 'Roboto Mono', monospace;
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
         html,
         body {
           overflow-x: hidden;
@@ -149,6 +193,7 @@ const Loader: React.FC = () => {
         .count,
         .digit {
           clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+          overflow: hidden;
         }
 
         .line h1,
@@ -180,18 +225,22 @@ const Loader: React.FC = () => {
 
         .divider {
           transform: scaleY(0%);
+          transform-origin: top center;
         }
 
         .hero-img {
           transform: scale(1.5);
           will-change: transform;
         }
+
+        .loader {
+          z-index: 9999;
+        }
       `}</style>
 
-      {/* Loader */}
       <div
         ref={loaderRef}
-        className="loader fixed top-0 left-0 w-full h-screen overflow-hidden z-[2]"
+        className="loader fixed top-0 left-0 w-full h-screen overflow-hidden z-[2] bg-transparent"
       >
         <div className="overlay absolute top-0 w-full h-full flex">
           <div className="block w-full h-full bg-[#101828]"></div>
@@ -218,6 +267,7 @@ const Loader: React.FC = () => {
         </div>
 
         <div className="counter absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2]">
+          {/* Starting 00 */}
           <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
             <div className="digit flex-1 pt-4">
               <h1 className="text-center text-white text-[18rem] font-normal leading-none">
@@ -230,154 +280,53 @@ const Loader: React.FC = () => {
               </h1>
             </div>
           </div>
-          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                2
-              </h1>
-            </div>
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                8
-              </h1>
-            </div>
-          </div>
-          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                6
-              </h1>
-            </div>
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                1
-              </h1>
-            </div>
-          </div>
-          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                9
-              </h1>
-            </div>
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                4
-              </h1>
-            </div>
-          </div>
-          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                9
-              </h1>
-            </div>
-            <div className="digit flex-1 pt-4">
-              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
-                9
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Main Container */}
-      <div className="w-full h-screen overflow-hidden relative">
-        <div className="hero-img absolute top-0 w-full h-screen overflow-hidden -z-10">
-          <img
-            src="/moin.jpeg"
-            alt="Hero Image"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <nav
-          className="nav absolute top-0 w-full py-5 px-6 flex items-center gap-6 will-change-transform"
-          style={{ padding: '1.25rem 1.5rem' }}
-        >
-          <div className="flex-1">
-            <a
-              href=""
-              className="no-underline uppercase text-white text-sm font-bold capitalize"
-            >
-              rasel
-            </a>
-          </div>
-          <div className="nav-links flex-1 flex gap-6 justify-center max-md:hidden">
-            <a
-              href=""
-              className="no-underline uppercase text-white text-xs font-medium leading-none"
-            >
-              Home
-            </a>
-            <a
-              href=""
-              className="no-underline uppercase text-white text-xs font-medium leading-none"
-            >
-              About
-            </a>
-            <a
-              href=""
-              className="no-underline uppercase text-white text-xs font-medium leading-none"
-            >
-              Services
-            </a>
-            <a
-              href=""
-              className="no-underline uppercase text-white text-xs font-medium leading-none"
-            >
-              Portfolio
-            </a>
-            <a
-              href=""
-              className="no-underline uppercase text-white text-xs font-medium leading-none"
-            >
-              Contact
-            </a>
-          </div>
-          <div className="flex-1 flex justify-end">
-            <a
-              href=""
-              className="flex justify-center items-center text-base w-[60px] h-10 text-black bg-white rounded-[40px]"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-            </a>
-          </div>
-        </nav>
-
-        <div className="w-full h-full flex items-center justify-center">
-          <header className="header w-full max-w-6xl py-[25vh] flex flex-col items-center gap-6">
-            <div className="hero-copy w-full text-center">
-              <div className="line">
-                <h1 className="text-white text-[5rem] max-md:text-5xl font-medium leading-none">
-                  <span className="font-medium italic">Rooted</span> in care
+          {/* First random number */}
+          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
+            {getDigits(numbers[0]).map((digit, i) => (
+              <div key={i} className="digit flex-1 pt-4">
+                <h1 className="text-center text-white text-[18rem] font-normal leading-none">
+                  {digit}
                 </h1>
               </div>
-              <div className="line">
-                <h1 className="text-white text-[5rem] max-md:text-5xl font-medium leading-none">
-                  for a better{' '}
-                  <span className="font-medium italic">tomorrow</span>
+            ))}
+          </div>
+
+          {/* Second random number */}
+          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
+            {getDigits(numbers[1]).map((digit, i) => (
+              <div key={i} className="digit flex-1 pt-4">
+                <h1 className="text-center text-white text-[18rem] font-normal leading-none">
+                  {digit}
                 </h1>
               </div>
+            ))}
+          </div>
+
+          {/* Third random number */}
+          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
+            {getDigits(numbers[2]).map((digit, i) => (
+              <div key={i} className="digit flex-1 pt-4">
+                <h1 className="text-center text-white text-[18rem] font-normal leading-none">
+                  {digit}
+                </h1>
+              </div>
+            ))}
+          </div>
+
+          {/* Final 99 */}
+          <div className="count absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex">
+            <div className="digit flex-1 pt-4">
+              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
+                9
+              </h1>
             </div>
-            <div className="line">
-              <p className="no-underline uppercase text-white text-xs font-medium leading-none">
-                Lorem ipsum dolor sit amet elit. Fugiat, ipsam.
-              </p>
+            <div className="digit flex-1 pt-4">
+              <h1 className="text-center text-white text-[18rem] font-normal leading-none">
+                9
+              </h1>
             </div>
-          </header>
+          </div>
         </div>
       </div>
     </>
