@@ -113,6 +113,16 @@ const Loader: React.FC = () => {
 
         * {
           font-family: 'Roboto Mono', monospace;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        html,
+        body {
+          overflow-x: hidden;
+          width: 100%;
+          height: 100%;
         }
 
         @keyframes spin {
@@ -181,7 +191,7 @@ const Loader: React.FC = () => {
       {/* Loader */}
       <div
         ref={loaderRef}
-        className="loader fixed top-0 left-0 w-screen h-screen overflow-hidden z-[2]"
+        className="loader fixed top-0 left-0 w-full h-screen overflow-hidden z-[2]"
       >
         <div className="overlay absolute top-0 w-full h-full flex">
           <div className="block w-full h-full bg-[#101828]"></div>
@@ -272,8 +282,8 @@ const Loader: React.FC = () => {
       </div>
 
       {/* Main Container */}
-      <div className="container relative w-screen h-screen overflow-hidden">
-        <div className="hero-img absolute top-0 w-screen h-screen overflow-hidden -z-10">
+      <div className="w-full h-screen overflow-hidden relative">
+        <div className="hero-img absolute top-0 w-full h-screen overflow-hidden -z-10">
           <img
             src="/moin.jpeg"
             alt="Hero Image"
@@ -281,7 +291,10 @@ const Loader: React.FC = () => {
           />
         </div>
 
-        <nav className="nav absolute top-0 w-screen py-5 px-6 flex items-center gap-6 will-change-transform">
+        <nav
+          className="nav absolute top-0 w-full py-5 px-6 flex items-center gap-6 will-change-transform"
+          style={{ padding: '1.25rem 1.5rem' }}
+        >
           <div className="flex-1">
             <a
               href=""
@@ -344,48 +357,28 @@ const Loader: React.FC = () => {
           </div>
         </nav>
 
-        <header className="header w-full h-full py-[25vh] flex flex-col items-center gap-6">
-          <div className="hero-copy">
-            <div className="line">
-              <h1 className="text-center text-white text-[5rem] max-md:text-5xl font-medium leading-none">
-                <span className="font-medium italic">Rooted</span> in care
-              </h1>
+        <div className="w-full h-full flex items-center justify-center">
+          <header className="header w-full max-w-6xl py-[25vh] flex flex-col items-center gap-6">
+            <div className="hero-copy w-full text-center">
+              <div className="line">
+                <h1 className="text-white text-[5rem] max-md:text-5xl font-medium leading-none">
+                  <span className="font-medium italic">Rooted</span> in care
+                </h1>
+              </div>
+              <div className="line">
+                <h1 className="text-white text-[5rem] max-md:text-5xl font-medium leading-none">
+                  for a better{' '}
+                  <span className="font-medium italic">tomorrow</span>
+                </h1>
+              </div>
             </div>
             <div className="line">
-              <h1 className="text-center text-white text-[5rem] max-md:text-5xl font-medium leading-none">
-                for a better{' '}
-                <span className="font-medium italic">tomorrow</span>
-              </h1>
-            </div>
-          </div>
-          <div className="line">
-            <p className="no-underline uppercase text-white text-xs font-medium leading-none">
-              Lorem ipsum dolor sit amet elit. Fugiat, ipsam.
-            </p>
-          </div>
-          <div className="cta absolute left-1/2 bottom-12 w-[30%] max-md:w-[90%] h-[60px] p-2 flex justify-end bg-white rounded-[4rem] will-change-transform">
-            <div className="cta-label absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <p className="no-underline uppercase text-black text-xs font-medium leading-none">
-                view all projects
+              <p className="no-underline uppercase text-white text-xs font-medium leading-none">
+                Lorem ipsum dolor sit amet elit. Fugiat, ipsam.
               </p>
             </div>
-            <div className="cta-icon relative h-full aspect-square flex justify-center items-center text-white bg-[#303030] rounded-[60px] will-change-transform">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            </div>
-          </div>
-        </header>
+          </header>
+        </div>
       </div>
     </>
   );
