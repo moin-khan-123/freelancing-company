@@ -3,11 +3,11 @@
 import Loader from '@/components/Loader';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-// import LogoLoop from '@/components/LogoLoop';
+import LogoLoop from '@/components/LogoLoop';
 
 export default function Page() {
   // Create an array of logo items
-  const logos = Array.from({ length: 7 }, (_, i) => ({
+  const logos = Array.from({ length: 5 }, (_, i) => ({
     src: `/logo-${i + 1}.webp`,
     alt: `Company logo ${i + 1}`,
     title: `Partner ${i + 1}`,
@@ -18,7 +18,7 @@ export default function Page() {
 
   return (
     <>
-      <Loader />
+      {/* <Loader /> */}
       {/* Main Container */}
       <div className="w-full min-h-screen relative">
         {/* Hero Section */}
@@ -26,20 +26,21 @@ export default function Page() {
           <Navbar />
           <HeroSection />
         </div>
-        {/* <LogoLoop
-          logos={logos}
-          speed={80}
-          direction="left"
-          width="100%"
-          logoHeight={48}
-          gap={64}
-          pauseOnHover={true}
-          fadeOut={true}
-          fadeOutColor="#0b0b0b"
-          scaleOnHover={true}
-          ariaLabel="Our trusted partners"
-          className="py-4" // Add some padding
-        /> */}
+        <div className="w-full bg-black py-12">
+          <LogoLoop
+            logos={logos}
+            speed={80}
+            direction="left"
+            width="100%"
+            logoHeight={28}
+            gap={64}
+            pauseOnHover={true}
+            fadeOut={true}
+            fadeOutColor="#0b0b0b"
+            scaleOnHover={true}
+            ariaLabel="Our trusted partners"
+          />
+        </div>
         {/* Add more sections below to enable scrolling */}
         <section className="w-full min-h-screen bg-white p-8 md:p-16">
           <div className="max-w-6xl mx-auto">
@@ -57,7 +58,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="w-full min-h-screen bg-gray-100 p-8 md:p-16">
+        <section className="w-full min-h-screen bg-white p-8 md:p-16">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 text-black">
               Services
