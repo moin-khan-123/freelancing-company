@@ -14,6 +14,13 @@ const ProjectShowcase = () => {
   const pinCardsRef = useRef<(HTMLElement | null)[]>([]);
   const lenisRef = useRef<Lenis | null>(null);
 
+  // Scrolling text animation refs
+  const firstText = useRef<HTMLParagraphElement>(null);
+  const slider = useRef<HTMLDivElement>(null);
+  const xPercent = useRef(0);
+  const direction = useRef(-1);
+  const animationFrameId = useRef<number | null>(null);
+
   useEffect(() => {
     // Lenis Smooth Scroll
     const initLenis = async () => {
@@ -21,7 +28,6 @@ const ProjectShowcase = () => {
       lenisRef.current = new LenisModule({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        // Prevent Lenis from interfering with other scroll effects
         syncTouch: true,
       });
 
@@ -43,6 +49,43 @@ const ProjectShowcase = () => {
 
     initLenis();
 
+    // Scrolling text animation
+    const scrollTextTrigger = gsap.to(slider.current, {
+      scrollTrigger: {
+        trigger: document.documentElement,
+        scrub: 0.25,
+        start: 0,
+        end: window.innerHeight,
+        onUpdate: (e) => {
+          direction.current = e.direction * -1;
+        },
+      },
+      x: '-500px',
+    });
+
+    const animate = () => {
+      // Continuous smooth animation
+      xPercent.current += 2 * direction.current;
+
+      if (firstText.current) {
+        const textWidth = firstText.current.offsetWidth;
+        const resetPoint = textWidth / 5; // Since we have 5 repetitions
+
+        // Reset position seamlessly when text scrolls out of view
+        if (xPercent.current <= -resetPoint) {
+          xPercent.current = 0;
+        } else if (xPercent.current >= 0) {
+          xPercent.current = -resetPoint;
+        }
+
+        gsap.set(firstText.current, { x: xPercent.current });
+      }
+
+      animationFrameId.current = requestAnimationFrame(animate);
+    };
+
+    animationFrameId.current = requestAnimationFrame(animate);
+
     // Delay ScrollTrigger setup to ensure DOM is ready
     const setupScrollTriggers = () => {
       const pinCards = pinCardsRef.current.filter(Boolean) as HTMLElement[];
@@ -56,7 +99,6 @@ const ProjectShowcase = () => {
             end: 'top top',
             pin: true,
             pinSpacing: false,
-            // Add a unique ID to help with cleanup
             id: `pin-card-${index}`,
           });
 
@@ -84,20 +126,28 @@ const ProjectShowcase = () => {
       });
     };
 
-    // Wait a bit for DOM to be ready
     const timeoutId = setTimeout(setupScrollTriggers, 100);
 
     return () => {
       clearTimeout(timeoutId);
 
-      // Kill only ScrollTriggers created by this component
+      // Cancel animation frame
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+
+      // Kill ScrollTriggers
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.vars.id?.toString().includes('card')) {
           trigger.kill();
         }
       });
 
-      // Refresh remaining ScrollTriggers
+      // Kill the scroll text trigger
+      if (scrollTextTrigger) {
+        scrollTextTrigger.kill();
+      }
+
       ScrollTrigger.refresh();
 
       if (lenisRef.current) {
@@ -156,9 +206,9 @@ const ProjectShowcase = () => {
         ref={mainRef}
         className="w-full overflow-x-hidden bg-[#1a1a1a2f] font-sans"
       >
-        {/* Intro Section */}
-        <section className="flex min-h-screen flex-col items-center justify-center  bg-linear-to-br from-gray-900 to-gray-40 px-[8vw] text-center text-white">
-          <h2 className="flex flex-wrap items-center justify-center text-[4vw] md:text-[8vw] lg:text-[4vw]">
+        {/* Intro Section with Scrolling Text */}
+        <section className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 px-[8vw] text-center text-white overflow-hidden">
+          <h2 className="flex flex-wrap items-center justify-center text-[4vw] md:text-[8vw] lg:text-[4vw] z-10">
             Best{' '}
             <span className="ml-[0.8vw] flex items-center font-light text-[bisque]">
               Games{' '}
@@ -179,7 +229,7 @@ const ProjectShowcase = () => {
             </span>
             To Try.
           </h2>
-          <p className="mt-4 max-w-200 text-lg leading-[1.4] opacity-80 md:text-base lg:text-xl">
+          <p className="mt-4 max-w-200 text-lg leading-[1.4] opacity-80 md:text-base lg:text-xl z-10">
             Here are a few of the most memorable and entertaining games I have
             enjoyed over the years. Each one stands out for its unique gameplay
             and lasting impact.
@@ -190,14 +240,31 @@ const ProjectShowcase = () => {
             height="55"
             viewBox="0 0 97 55"
             fill="none"
+            className="z-10"
           >
             <path
               d="M83.9847 54C78.6511 51.5322 68.0674 44.655 61.7108 35.7342M61.7108 35.7342C57.5824 29.9403 55.2371 23.2843 57.2715 16.4144C60.0986 7.49032 70.2847 -6.31124 90.9344 5.6788C98.7241 10.2019 98.4556 20.6021 83.5646 27.5777C79.0031 29.7146 71.0686 33.5275 61.7108 35.7342ZM61.7108 35.7342C53.4442 37.6836 44.0668 38.3795 34.9229 35.559C25.1202 32.5353 9.6859 22.4932 2.95683 11.8205M2.95683 11.8205C2.62313 11.2912 2.31083 10.7604 2.02169 10.2288M2.95683 11.8205C2.64312 11.2405 2.3276 10.7065 2.02169 10.2288M2.95683 11.8205C6.02114 17.4865 8.91304 27.5524 1 32.5592M2.02169 10.2288C4.26447 13.5357 12.5228 18.93 27.614 14.0517M60.1349 46.4081C56.4491 47.6903 43.2901 50.1894 32.1762 43.8776"
               stroke="#030303"
-              stroke-width="1.5"
+              strokeWidth="1.5"
             />
           </svg>
+
+          {/* Scrolling Text Animation */}
+          <div className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none">
+            <div
+              ref={slider}
+              className="relative whitespace-nowrap will-change-transform"
+            >
+              <p
+                ref={firstText}
+                className="relative uppercase m-0 text-white/10 text-[15vw] md:text-[20vw] lg:text-[15vw] font-bold inline-block will-change-transform"
+              >
+                Our company&apos;s best projects
+              </p>
+            </div>
+          </div>
         </section>
+
         {/* Project Cards */}
         {projects.map((project, index) => (
           <section
