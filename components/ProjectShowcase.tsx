@@ -154,10 +154,10 @@ const ProjectShowcase = () => {
     <>
       <main
         ref={mainRef}
-        className="w-full overflow-x-hidden bg-[#1a1a1a] font-sans"
+        className="w-full overflow-x-hidden bg-[#1a1a1a2f] font-sans"
       >
         {/* Intro Section */}
-        <section className="flex min-h-screen flex-col items-center justify-center bg-[#1a1a1a] px-[8vw] text-center text-white">
+        <section className="flex min-h-screen flex-col items-center justify-center  bg-linear-to-br from-gray-900 to-gray-40 px-[8vw] text-center text-white">
           <h2 className="flex flex-wrap items-center justify-center text-[4vw] md:text-[8vw] lg:text-[4vw]">
             Best{' '}
             <span className="ml-[0.8vw] flex items-center font-light text-[bisque]">
@@ -176,7 +176,7 @@ const ProjectShowcase = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </span>{' '}
+            </span>
             To Try.
           </h2>
           <p className="mt-4 max-w-200 text-lg leading-[1.4] opacity-80 md:text-base lg:text-xl">
@@ -184,20 +184,20 @@ const ProjectShowcase = () => {
             enjoyed over the years. Each one stands out for its unique gameplay
             and lasting impact.
           </p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="97"
+            height="55"
+            viewBox="0 0 97 55"
+            fill="none"
+          >
+            <path
+              d="M83.9847 54C78.6511 51.5322 68.0674 44.655 61.7108 35.7342M61.7108 35.7342C57.5824 29.9403 55.2371 23.2843 57.2715 16.4144C60.0986 7.49032 70.2847 -6.31124 90.9344 5.6788C98.7241 10.2019 98.4556 20.6021 83.5646 27.5777C79.0031 29.7146 71.0686 33.5275 61.7108 35.7342ZM61.7108 35.7342C53.4442 37.6836 44.0668 38.3795 34.9229 35.559C25.1202 32.5353 9.6859 22.4932 2.95683 11.8205M2.95683 11.8205C2.62313 11.2912 2.31083 10.7604 2.02169 10.2288M2.95683 11.8205C2.64312 11.2405 2.3276 10.7065 2.02169 10.2288M2.95683 11.8205C6.02114 17.4865 8.91304 27.5524 1 32.5592M2.02169 10.2288C4.26447 13.5357 12.5228 18.93 27.614 14.0517M60.1349 46.4081C56.4491 47.6903 43.2901 50.1894 32.1762 43.8776"
+              stroke="#030303"
+              stroke-width="1.5"
+            />
+          </svg>
         </section>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="97"
-          height="55"
-          viewBox="0 0 97 55"
-          fill="none"
-        >
-          <path
-            d="M83.9847 54C78.6511 51.5322 68.0674 44.655 61.7108 35.7342M61.7108 35.7342C57.5824 29.9403 55.2371 23.2843 57.2715 16.4144C60.0986 7.49032 70.2847 -6.31124 90.9344 5.6788C98.7241 10.2019 98.4556 20.6021 83.5646 27.5777C79.0031 29.7146 71.0686 33.5275 61.7108 35.7342ZM61.7108 35.7342C53.4442 37.6836 44.0668 38.3795 34.9229 35.559C25.1202 32.5353 9.6859 22.4932 2.95683 11.8205M2.95683 11.8205C2.62313 11.2912 2.31083 10.7604 2.02169 10.2288M2.95683 11.8205C2.64312 11.2405 2.3276 10.7065 2.02169 10.2288M2.95683 11.8205C6.02114 17.4865 8.91304 27.5524 1 32.5592M2.02169 10.2288C4.26447 13.5357 12.5228 18.93 27.614 14.0517M60.1349 46.4081C56.4491 47.6903 43.2901 50.1894 32.1762 43.8776"
-            stroke="#030303"
-            stroke-width="1.5"
-          />
-        </svg>
         {/* Project Cards */}
         {projects.map((project, index) => (
           <section
