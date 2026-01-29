@@ -4,7 +4,8 @@ import Loader from '@/components/Loader';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import LogoLoop from '@/components/LogoLoop';
-import AlericHero from '@/components/AlericHero';
+import ProjectShowcase from '@/components/ProjectShowcase';
+import Whatwedo from '@/components/Whatwedo';
 
 export default function Page() {
   // Create an array of logo items
@@ -61,35 +62,8 @@ export default function Page() {
             />
           </div>
         </section>
-        <AlericHero />
-        {/* Add more sections below to enable scrolling */}
-        <section className="w-full min-h-screen bg-white p-8 md:p-16">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-black">
-              About Us
-            </h2>
-            <p className="text-lg text-gray-700 mb-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <p className="text-lg text-gray-700">
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
-          </div>
-        </section>
-
-        <section className="w-full min-h-screen bg-white p-8 md:p-16">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-black">
-              Services
-            </h2>
-            <p className="text-lg text-gray-700">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur.
-            </p>
-          </div>
-        </section>
+        <Whatwedo />
+        <ProjectShowcase />
       </div>
     </>
   );

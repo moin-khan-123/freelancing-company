@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function AlericHero() {
+export default function Whatwedo() {
   const numberRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -96,8 +96,8 @@ export default function AlericHero() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl xl:max-w-[90rem] mx-auto">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl xl:max-w-360 mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
           {/* Left Section - Large Number */}
           <div
@@ -108,7 +108,7 @@ export default function AlericHero() {
             <div className="absolute -bottom-4 sm:-bottom-6 md:-bottom-8 lg:-top-10 -left-6 sm:-left-8 md:-left-12 lg:-left-16 right-0 w-full pointer-events-none">
               <div className="relative w-full overflow-hidden">
                 <h2 className="text-[clamp(40px,5vw,150px)] font-extrabold text-[#ebebeb00] leading-none text-center whitespace-nowrap tracking-tight text-gradient">
-                  What I Do
+                  WHAT WE DO
                 </h2>
               </div>
             </div>
@@ -132,7 +132,7 @@ export default function AlericHero() {
                 </span>
               </div>
 
-              <div className="absolute top-[20%] right-[10%] sm:top-[22%] sm:right-[12%] md:top-[65%] md:left-[10%] pill">
+              <div className="absolute top-[20%] left-[10%] sm:top-[22%] sm:left-[12%] md:top-[65%] md:left-[10%] pill">
                 <span className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2 lg:px-6 lg:py-2 bg-teal-700 text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg whitespace-nowrap">
                   Evaluation
                 </span>
