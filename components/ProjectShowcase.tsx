@@ -65,7 +65,7 @@ const ProjectShowcase = () => {
 
     const animate = () => {
       // Continuous smooth animation
-      xPercent.current += 2 * direction.current;
+      xPercent.current += 1.5 * direction.current;
 
       if (firstText.current) {
         const textWidth = firstText.current.offsetWidth;
@@ -168,7 +168,7 @@ const ProjectShowcase = () => {
     },
     {
       number: '02',
-      title: 'GOW : RAGNAROCK',
+      title: 'GOW : RAGNAROK',
       image:
         'https://i.pinimg.com/1200x/83/a0/61/83a0611b7dffe9a845b371161da4a6ca.jpg',
       description:
@@ -204,10 +204,10 @@ const ProjectShowcase = () => {
     <>
       <main
         ref={mainRef}
-        className="w-full overflow-x-hidden bg-[#1a1a1a2f] font-sans"
+        className="w-full overflow-x-hidden bg-[#1a1a1a42] font-sans"
       >
         {/* Intro Section with Scrolling Text */}
-        <section className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 px-[8vw] text-center text-white overflow-hidden">
+        <section className="relative flex min-h-screen flex-col items-center justify-center bg-linear-to-br from-gray-900 to-gray-800 px-[8vw] text-center text-white overflow-hidden">
           <h2 className="flex flex-wrap items-center justify-center text-[4vw] md:text-[8vw] lg:text-[4vw] z-10">
             Best{' '}
             <span className="ml-[0.8vw] flex items-center font-light text-[bisque]">
@@ -240,11 +240,11 @@ const ProjectShowcase = () => {
             height="55"
             viewBox="0 0 97 55"
             fill="none"
-            className="z-10"
+            className="z-10 rotate-180 absolute top-10 right-10 md:top-20 md:right-20 lg:top-130 lg:right-70"
           >
             <path
               d="M83.9847 54C78.6511 51.5322 68.0674 44.655 61.7108 35.7342M61.7108 35.7342C57.5824 29.9403 55.2371 23.2843 57.2715 16.4144C60.0986 7.49032 70.2847 -6.31124 90.9344 5.6788C98.7241 10.2019 98.4556 20.6021 83.5646 27.5777C79.0031 29.7146 71.0686 33.5275 61.7108 35.7342ZM61.7108 35.7342C53.4442 37.6836 44.0668 38.3795 34.9229 35.559C25.1202 32.5353 9.6859 22.4932 2.95683 11.8205M2.95683 11.8205C2.62313 11.2912 2.31083 10.7604 2.02169 10.2288M2.95683 11.8205C2.64312 11.2405 2.3276 10.7065 2.02169 10.2288M2.95683 11.8205C6.02114 17.4865 8.91304 27.5524 1 32.5592M2.02169 10.2288C4.26447 13.5357 12.5228 18.93 27.614 14.0517M60.1349 46.4081C56.4491 47.6903 43.2901 50.1894 32.1762 43.8776"
-              stroke="#030303"
+              stroke="#f6f7f9"
               strokeWidth="1.5"
             />
           </svg>
@@ -259,35 +259,51 @@ const ProjectShowcase = () => {
                 ref={firstText}
                 className="relative uppercase m-0 text-white/10 text-[15vw] md:text-[20vw] lg:text-[15vw] font-bold inline-block will-change-transform"
               >
-                Our company&apos;s best projects
+                Our company&apos;s best projects Our company&apos;s best
+                projects Our company&apos;s best projects Our company&apos;s
+                best projects
               </p>
             </div>
           </div>
         </section>
 
-        {/* Project Cards */}
+        {/* Project Cards - Updated with tablet breakpoints */}
         {projects.map((project, index) => (
           <section
             key={index}
             ref={(el) => {
               pinCardsRef.current[index] = el;
             }}
-            className="relative flex min-h-[80vh] w-full flex-col items-start justify-between gap-8 border-b border-black/25 bg-[#fcfcfc] p-[5vh_6vw] md:flex-row md:gap-0 md:p-[10vh_8vw] perspective-[1000px]"
+            className="relative flex min-h-[80vh] lg:min-h-screen w-full flex-col items-start justify-between gap-8 border-b border-black/25 bg-[#fcfcfc] p-[5vh_6vw] lg:flex-row lg:gap-0 lg:p-[10vh_8vw] perspective-[1000px]"
           >
             <div className="overlay pointer-events-none absolute inset-0 bg-black opacity-0"></div>
-            <span className="text-[12vw] font-semibold md:text-[15vw] lg:text-[8vw]">
+            <span className="text-[12vw] font-semibold lg:text-[8vw]">
               ({project.number})
             </span>
-            <div className="flex w-full flex-col items-start justify-start md:w-3/5">
-              <h2 className="mb-4 text-[8vw] font-medium tracking-[-0.08rem] md:text-[10vw] md:mb-8 lg:mb-8 lg:text-[4vw]">
+            <div className="flex w-full flex-col items-start justify-start lg:w-3/5">
+              {/* Title above image - shown only on mobile and tablet (below 1024px) */}
+              <h2 className="mb-4 text-[8vw] font-medium tracking-[-0.08rem] lg:hidden">
                 {project.title}
               </h2>
-              <img
-                src={project.image}
-                alt={project.title}
-                className="max-w-full"
-              />
-              <p className="mt-6 max-w-full leading-[1.3] md:max-w-[70%]">
+
+              <div className="relative w-full">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full"
+                />
+                {/* Title overlay with blur - shown only on desktop (1024px and above) */}
+                <div className="hidden lg:block absolute top-0 left-0 p-6 xl:p-8">
+                  <div className="relative bg-black/40 backdrop-blur-lg rounded-lg p-5 xl:p-6">
+                    <div className="absolute top-0 left-0 w-full h-full bg-black/30 -z-10 rounded-lg"></div>
+                    <h2 className="text-white font-bold text-4xl xl:text-5xl">
+                      {project.title}
+                    </h2>
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-6 max-w-full leading-[1.3] lg:max-w-[70%]">
                 {project.description}
               </p>
             </div>
