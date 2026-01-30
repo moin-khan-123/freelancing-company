@@ -20,7 +20,7 @@ export default function StickyFooterPage() {
 function HeaderSection() {
   return (
     <section
-      className="h-screen flex items-center justify-center min-h-screen bg-linear-to-br from-gray-50 to-gray-100 px-4 md:px-8 lg:px-16"
+      className="h-screen flex items-center justify-center min-h-screen bg-gradient-to-b from-white to-gray-300 px-4 md:px-8 lg:px-16"
       aria-label="Introduction"
     >
       <div className="max-w-4xl mx-auto text-center">
@@ -28,7 +28,7 @@ function HeaderSection() {
           This is an example of a sticky footer implemented with modern CSS
           techniques.
         </h2>
-        <p className="mt-6 text-lg text-gray-300">
+        <p className="mt-6 text-lg text-gray-600">
           Scroll down to experience the sticky footer effect
         </p>
       </div>
@@ -108,28 +108,22 @@ function FooterBottom() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mt-8 lg:mt-0">
-      <div>
-        <h1 className="text-8xl md:text-9xl lg:text-[14vw] font-bold leading-[0.85] text-white">
+    <div className="flex bg-gray-900 flex-col lg:flex-row justify-center items-center text-center mt-8 lg:mt-0 rounded-2xl uppercase p-8">
+      <div className="w-full lg:w-auto">
+        <h1 className="text-[clamp(50px,13vw,250px)] font-bold leading-[0.80] text-white px-4 lg:px-0">
           Sticky Footer
         </h1>
-        <p className="mt-4 text-gray-400">
-          A modern implementation using CSS and React
-        </p>
-      </div>
 
-      <div className="mt-8 lg:mt-0 text-right">
-        <p className="text-gray-400 mb-2">
-          &copy; {currentYear} All rights reserved
-        </p>
-        <p className="text-sm text-gray-500">
-          Designed with Next.js and Tailwind CSS
-        </p>
+        <div className="mt-8 lg:mt-0 flex justify-between">
+          <p className="text-gray-400 mt-4">
+            &copy; {currentYear} All rights reserved
+          </p>
+          <p className="mt-4 text-gray-400">A modern implementation</p>
+        </div>
       </div>
     </div>
   );
 }
-
 /**
  * Reusable footer navigation section component
  */
