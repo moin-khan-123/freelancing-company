@@ -6,6 +6,7 @@ import HeroSection from '@/components/HeroSection';
 import LogoLoop from '@/components/LogoLoop';
 import ProjectShowcase from '@/components/ProjectShowcase';
 import Whatwedo from '@/components/Whatwedo';
+import StickyFooterPage from '@/components/StickyFooterPage';
 
 export default function Page() {
   // Create an array of logo items
@@ -64,6 +65,7 @@ export default function Page() {
         </section>
         <Whatwedo />
         <ProjectShowcase />
+        <StickyFooterPage />
       </div>
     </>
   );

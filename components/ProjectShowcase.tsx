@@ -311,7 +311,7 @@ const ProjectShowcase = () => {
         ))}
 
         {/* Outro Section */}
-        <section className="flex min-h-screen flex-col items-center justify-center bg-[#1a1a1a] px-[8vw] text-center text-white">
+        {/* <section className="flex min-h-screen flex-col items-center justify-center bg-[#1a1a1a] px-[8vw] text-center text-white">
           <h2 className="flex flex-wrap items-center justify-center text-[4vw] md:text-[8vw] lg:text-[4vw]">
             Happy{' '}
             <span className="mr-[0.8vw] flex items-center font-light text-[bisque]">
@@ -339,7 +339,7 @@ const ProjectShowcase = () => {
             challenging gameplay, each of these titles offers something truly
             special. Enjoy exploring these worlds!
           </p>
-        </section>
+        </section> */}
       </main>
     </>
   );
