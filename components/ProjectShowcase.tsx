@@ -274,7 +274,7 @@ const ProjectShowcase = () => {
             ref={(el) => {
               pinCardsRef.current[index] = el;
             }}
-            className="relative flex min-h-[80vh] lg:min-h-screen w-full flex-col items-start justify-between gap-8 border-b border-black/25 bg-[#fcfcfc] p-[5vh_6vw] lg:flex-row lg:gap-0 lg:p-[10vh_8vw] perspective-[1000px]"
+            className="relative flex min-h-[80vh] lg:min-h-screen w-full flex-col items-start justify-between gap-8 border-b border-black/25 bg-[#fcfcfc] p-[8vh_9vw] lg:flex-row lg:gap-0 lg:p-[10vh_8vw] perspective-[1000px]"
           >
             <div className="overlay pointer-events-none absolute inset-0 bg-black opacity-0"></div>
             <span className="text-[12vw] font-semibold lg:text-[8vw]">
@@ -293,8 +293,8 @@ const ProjectShowcase = () => {
                   className="w-full"
                 />
                 {/* Title overlay with blur - shown only on desktop (1024px and above) */}
-                <div className="hidden lg:block absolute top-0 left-0 p-6 xl:p-8">
-                  <div className="relative bg-black/40 backdrop-blur-lg rounded-lg p-5 xl:p-6">
+                <div className="hidden lg:block absolute top-0 left-0">
+                  <div className="relative bg-black/40 backdrop-blur-lg rounded-lg p-3 xl:p-4">
                     <div className="absolute top-0 left-0 w-full h-full bg-black/30 -z-10 rounded-lg"></div>
                     <h2 className="text-white font-bold text-4xl xl:text-5xl">
                       {project.title}
@@ -303,7 +303,7 @@ const ProjectShowcase = () => {
                 </div>
               </div>
 
-              <p className="mt-6 max-w-full leading-[1.3] lg:max-w-[70%]">
+              <p className="mt-6 max-w-full md:text-lg lg:text-2xl xl:text-3xl leading-[1.3] ">
                 {project.description}
               </p>
             </div>
