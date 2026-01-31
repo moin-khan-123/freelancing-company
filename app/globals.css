@@ -11,3 +11,17 @@
   -webkit-text-fill-color: rgba(0, 0, 0, 0);
   opacity: 0.1;
 }
+
+.text-gradient-1 {
+  font-weight: 700;
+  letter-spacing: -2%;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.1;
+}

@@ -83,13 +83,17 @@ function FooterNavigation() {
       items: ['News', 'Learn', 'Certification', 'Publications'],
     },
     {
+      title: 'Education',
+      items: ['News', 'Learn', 'Certification', 'Publications'],
+    },
+    {
       title: 'Resources',
       items: ['Documentation', 'API', 'Tutorials', 'Community'],
     },
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+    <div className="flex flex-col md:flex-row md:justify-between gap-12 lg:gap-20 uppercase ">
       {navigationSections.map((section, index) => (
         <FooterNavSection
           key={index}
@@ -108,12 +112,17 @@ function FooterBottom() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="flex bg-gray-900 flex-col lg:flex-row justify-center items-center text-center mt-8 lg:mt-0 rounded-2xl uppercase p-8">
-      <div className="w-full lg:w-auto">
-        <h1 className="text-[clamp(50px,13vw,250px)] font-bold leading-[0.80] text-white px-4 lg:px-0">
+    <div className="flex bg-gray-900 flex-col lg:flex-row justify-center items-center text-center mt-8 lg:mt-0 rounded-2xl uppercase p-8 overflow-visible">
+      {' '}
+      {/* Added overflow-visible */}
+      <div className="w-full lg:w-auto overflow-visible">
+        {' '}
+        {/* Added overflow-visible */}
+        <h1 className="text-[clamp(50px,13vw,250px)] font-bold leading-[0.80] text-gradient-1 px-4 lg:px-0 pb-4">
+          {' '}
+          {/* Added pb-4 */}
           Sticky Footer
         </h1>
-
         <div className="mt-8 lg:mt-0 flex justify-between">
           <p className="text-gray-400 mt-4">
             &copy; {currentYear} All rights reserved

@@ -31,7 +31,7 @@ export default function Page() {
         </div>
 
         {/* Logo Section - Matching the design */}
-        <section className="w-full bg-black py-6 md:py-8">
+        <section className="w-full bg-gray-900 py-6 md:py-8">
           <div className="w-full mx-auto px-4">
             {/* Heading with decorative lines */}
             <div className="flex items-center justify-center gap-2 md:gap-4 mb-6 md:mb-8">
@@ -57,7 +57,7 @@ export default function Page() {
               gap={60}
               pauseOnHover={true}
               fadeOut={true}
-              fadeOutColor="#000000"
+              fadeOutColor="#111827"
               scaleOnHover={true}
               ariaLabel="Our trusted partners"
             />
